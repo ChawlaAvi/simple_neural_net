@@ -18,30 +18,20 @@ def sigmoid(x, deriv=False):
 
 		a.append(b)
 
-	a=np.array(a)
-	
-	return a		
+	return np.array(a)		
 			
 def relu(x,deriv = False):
-	if deriv:
-		a= []
-		for i in x:
-			if i>0:
+	a= []
+	for i in x:
+		if i>0:
+			if deriv:
 				a.append(1)
 			else:
-				a.append(0)
-		a=np.array(a)		
-		return a.reshape((-1,1))
-	else:
-		a=[]
-		for i in x:
-			if i>0:
 				a.append(i)
-			else:
-				a.append(0)
-		a=np.array(a)
-				
-		return a.reshape((-1,1))
+		else:
+			a.append(0)
+	a=np.array(a)
+	return a.reshape((-1,1))
 
 # df = pd.read_csv('data.csv')
 
@@ -57,12 +47,11 @@ assert X_train.shape[0] == Y_train.shape[0]
 
 np.random.seed(1)
 
-weight1 = np.random.random((X_train.shape[1],2)) 
+weight1 = np.random.random((X_train.shape[1],2))
 weight2 = np.random.random((2,1)) 
 
 lr = 0.01
-for i in range(10000):
-
+for _ in range(10000):
 	a1 = X_train
 	# print("a1 -> ", a1.shape)
 	z2 = np.dot(a1,weight1)
@@ -76,7 +65,7 @@ for i in range(10000):
 	error_3 = Y_train - a3
 
 	# print("error_3 -> ", error_3.shape)
-	print("ERROR: "+str(np.mean(np.abs(error_3))))
+	print(f"ERROR: {str(np.mean(np.abs(error_3)))}")
 
 
 	delta_3 = -(error_3)*sigmoid(a3,deriv=True)*10
